@@ -2,8 +2,8 @@ from WeatherDataDownloader import WeatherDataDownloader
 from DatabaseManager import DatabaseManager
 
 # Coordenadas de las ciudades
-cityList = ["London", "New York", "Cordoba", "Taipei",
-            "Buenos Aires", "Mexico DF", "Dublin", "Tilfis", "Bogota", "Tokio"]
+cityList = ["Helmand Province", "Great River", "Colonia Caroya", "Pasni",
+            "Ombues de Lavalle", "Tlalnepantla", "Tijnje", "Amasia", "Malé", "Shuzenji"]
 coordList = ["lat=31&lon=64", "lat=40&lon=-73", "lat=-31&lon=-64", "lat=25&lon=64", "lat=-34&lon=-58",
              "lat=19&lon=-99", "lat=53&lon=6", "lat=41&lon=44", "lat=4&lon=74", "lat=35&lon=139"]
 
@@ -40,12 +40,10 @@ def main():
     '''
     db_manager.create_weather_data_table()
     session = db_manager.create_db_session()
-
-    for city, coords in zip(cityList, coordList):
-        df = api_manager.download_weather_data(city, coords)
-        if df is not None:
-            df.to_sql(name="weather_data", con=db_manager.engine,
-                      if_exists="append", index=False)
+    
+    df = api_manager.download_weather_data(cityList, coordList)
+    if df is not None:
+        df.to_sql(name="weather_data", con=db_manager.engine, if_exists="append", index=False)
 
     session.close()
 
