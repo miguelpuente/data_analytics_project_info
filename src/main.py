@@ -40,10 +40,10 @@ def main():
     '''
     db_manager.create_weather_data_table()
     session = db_manager.create_db_session()
-    
+
     df = api_manager.download_weather_data(cityList, coordList)
-    if df is not None:
-        df.to_sql(name="weather_data", con=db_manager.engine, if_exists="append", index=False)
+    # if df is not None:
+    #     df.to_sql(name="weather_data", con=db_manager.engine, if_exists="append", index=False)
 
     session.close()
 

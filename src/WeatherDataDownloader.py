@@ -2,6 +2,7 @@ from os import makedirs
 import pandas as pd
 import requests
 import time
+import json
 from datetime import datetime
 from Config import Config
 
@@ -15,11 +16,11 @@ class WeatherDataDownloader:
         self.api_url = instance.BASE_URL
         self.time_unix_now = int(time.time())
 
-
     def download_weather_data(self, cityList, coordList):
-        #Extract
-        file_path = self._save_weather_data_as_csv(cityList, coordList)
-
+        # Extract
+        # file_path = self._save_weather_data_as_csv(coordList)
+        self._transform_weather_data(
+            'data_analytics/openweather/tiempodiario_20230808.csv')
 
     def _fetch_weather_data(self, url):
         try:
@@ -45,18 +46,25 @@ class WeatherDataDownloader:
             # Manejo de cualquier otra excepción no especificada anteriormente
             print(f"Error desconocido: {e}")
 
-
-    def _save_weather_data_as_csv(self, cityList, coordList):
+    def _save_weather_data_as_csv(self, coordList):
+        time_now = self.time_unix_now
         all_data_df = pd.DataFrame()
-        for city, coords in zip(cityList, coordList):
-            url = f'{self.api_url}{coords}&appid={self.api_key}&units=metric'
+        for coords in (coordList):
+            print
+            url = f'{self.api_url}{coords}&dt={self.time_unix_now}&appid={self.api_key}&units=metric'
             data = self._fetch_weather_data(url)
             if data:
                 df = pd.json_normalize(data)
                 all_data_df = pd.concat([all_data_df, df], ignore_index=True)
+            time_now += 86400
         date_time = datetime.now().strftime('%Y%m%d')
         output_dir = 'data_analytics/openweather/'
         makedirs(output_dir, exist_ok=True)
         file_path = f'{output_dir}tiempodiario_{date_time}.csv'
         all_data_df.to_csv(file_path, index=False)
         return file_path
+
+    def _transform_weather_data(self, path):
+        df = pd.read_csv(path)
+        for item in df['hourly']:
+            print(item)
