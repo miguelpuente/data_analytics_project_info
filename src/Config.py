@@ -72,7 +72,8 @@ class Config:
         '''
         self.API_KEY = config('API_KEY')
         self.BASE_URL = config('BASE_URL')
-        self.SQLALCHEMY_DATABASE_URI = f'{config("DB_LANG_DRIVER")}://{config("DB_USER")}:{config("DB_PASSWORD")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
+        # self.SQLALCHEMY_DATABASE_URI = f'{config("DB_LANG_DRIVER")}://{config("DB_USER")}:{config("DB_PASSWORD")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
+        self.SQLALCHEMY_DATABASE_URI = f'postgresql://{config("DB_USER")}:{config("DB_PASSWORD")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
 
     @staticmethod
     def get_instance():
