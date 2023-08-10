@@ -1,5 +1,13 @@
 # Final Project Data Analytics - Informatorio
 
+## Technical Summary::
+
+* Object Oriented Programming (OOP): The project is structured using object-oriented programming principles, which helps to organize and modularize the code effectively.
+* Virtual environments: A virtual environment is used to ensure the independence and reproducibility of the development environment. Shows how to create and activate a virtual environment on Windows and Linux.
+* Environment Variables – Sensitive settings and credentials are handled as environment variables in an .env file, helping to maintain project configuration security and flexibility.
+* Docker – The project includes a Docker configuration using docker-compose to run the application in a container. This simplifies the configuration of the environment and the distribution of the project.
+
+
 ## Summary
 
 The project consumes the [OpenWeathermap](https://openweathermap.org) api where it gets the current weather forecast plus the next four days and the name of the city given the latitude and longitude of the geographic location to query. The information obtained is stored in a postgres database.
@@ -59,6 +67,13 @@ The project consumes the [OpenWeathermap](https://openweathermap.org) api where 
 # Español
 
 # Proyecto final Data Analytics - Informatorio
+
+## Resumen técnico:
+
+* Programación Orientada a Objetos (OOP): El proyecto está estructurado utilizando principios de programación orientada a objetos, lo que ayuda a organizar y modularizar el código de manera efectiva.
+* Entornos virtuales: Se utiliza un entorno virtual para garantizar la independencia y reproducibilidad del entorno de desarrollo. Muestra cómo crear y activar un entorno virtual en Windows y Linux.
+* Variables de entorno: las configuraciones confidenciales y las credenciales se manejan como variables de entorno en un archivo .env, lo que ayuda a mantener la seguridad y flexibilidad de la configuración del proyecto.
+* Docker: el proyecto incluye una configuración de Docker que utiliza docker-compose para ejecutar la aplicación en un contenedor. Esto simplifica la configuración del entorno y la distribución del proyecto.
 
 ## Resumen
 
