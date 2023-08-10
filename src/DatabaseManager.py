@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
 from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.exc import SQLAlchemyError
 from Config import Config
 
 Base = declarative_base()
@@ -53,10 +54,10 @@ class DatabaseManager:
         ###
         Constructor de la clase que inicializa el motor y la sesión de la base de datos.
         '''
-        self.engine = self.create_db_engine()
-        self.session = self.create_db_session()
+        self.engine = self._create_db_engine()
+        self.session = self._create_db_session()
 
-    def create_db_engine(self):
+    def _create_db_engine(self):
         '''
         Creates and returns a SQLAlchemy database engine.
 
@@ -70,10 +71,18 @@ class DatabaseManager:
          Retorna:
          sqlalchemy.engine.Engine: Motor de la base de datos.
         '''
-        engine = create_engine(instance.SQLALCHEMY_DATABASE_URI, echo=True)
-        return engine
+        try:
+            engine = create_engine(instance.SQLALCHEMY_DATABASE_URI, echo=True)
+            return engine
+        except SQLAlchemyError as sql_err:
+            print(
+                f"An SQLAlchemy error occurred while creating the engine: {sql_err}")
+            return None
+        except Exception as ex:
+            print(f"An error occurred in _create_db_engine: {ex}")
+            return None
 
-    def create_db_session(self):
+    def _create_db_session(self):
         '''
         Creates and returns a session of the SQLAlchemy database.
 
@@ -87,8 +96,17 @@ class DatabaseManager:
          Retorna:
          sqlalchemy.orm.Session: Sesión de la base de datos.
         '''
-        session = sessionmaker(bind=self.engine)
-        return session()
+        try:
+            session = sessionmaker(bind=self.engine)
+            return session()
+
+        except SQLAlchemyError as sql_err:
+            print(
+                f"An SQLAlchemy error occurred while creating the session: {sql_err}")
+            return None
+        except Exception as ex:
+            print(f"An error occurred in _create_db_session: {ex}")
+            return None
 
     class WeatherData(Base):
         '''
@@ -131,4 +149,10 @@ class DatabaseManager:
         ###
         Crea la tabla 'weather_data' en la base de datos.
         '''
-        Base.metadata.create_all(self.engine)
+        try:
+            Base.metadata.create_all(self.engine)
+        except SQLAlchemyError as sql_err:
+            print(
+                f"An SQLAlchemy error occurred while creating the weather data table: {sql_err}")
+        except Exception as ex:
+            print(f"An error occurred in create_weather_data_table: {ex}")

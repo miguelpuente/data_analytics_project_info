@@ -70,10 +70,13 @@ class Config:
          - BASE_URL: URL base de la API de OpenWeatherMap.
          - SQLALCHEMY_DATABASE_URI: Cadena de conexión para la base de datos PostgreSQL.
         '''
-        self.API_KEY = config('API_KEY')
-        self.BASE_URL = config('BASE_URL')
-        # self.SQLALCHEMY_DATABASE_URI = f'{config("DB_LANG_DRIVER")}://{config("DB_USER")}:{config("DB_PASSWORD")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
-        self.SQLALCHEMY_DATABASE_URI = f'postgresql://{config("DB_USER")}:{config("DB_PASSWORD")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
+        try:
+            self.API_KEY = config('API_KEY')
+            self.BASE_URL = config('BASE_URL')
+            self.SQLALCHEMY_DATABASE_URI = f'{config("DB_LANG_DRIVER")}://{config("DB_USER")}:{config("DB_PASSWORD")}@{config("DB_HOST")}:{config("DB_PORT")}/{config("DB_NAME")}'
+
+        except Exception as ex:
+            print(f"An error occurred while configuring variables: {ex}")
 
     @staticmethod
     def get_instance():
